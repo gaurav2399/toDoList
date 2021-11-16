@@ -16,7 +16,7 @@ app.use(express.static('public'));
 const mongo_url_cloud = "mongodb+srv://admin-gaurav:gaurav%40sharma@cluster0.udwj8.mongodb.net/toDoListDb?retryWrites=true&w=majority";
 const mongo_url_local = "mongodb://localhost:27017/toDoListDB";
 
-mongoose.connect(mongo_url_local);
+mongoose.connect(mongo_url_cloud);
 
 const itemsSchema = {
   name: String
