@@ -16,7 +16,7 @@ app.use(express.static('public'));
 const mongo_url_cloud = "mongodb+srv://admin-gaurav:gaurav%40sharma@cluster0.udwj8.mongodb.net/toDoListDb?retryWrites=true&w=majority";
 const mongo_url_local = "mongodb://localhost:27017/toDoListDB";
 
-mongoose.connect(mongo_url_cloud);
+mongoose.connect(mongo_url_local);
 
 const itemsSchema = {
   name: String
@@ -45,7 +45,10 @@ const checkFood = new Item({
 
 const defaultItems = [eatFood, buyFood, checkFood];
 
-app.get('/favicon.ico', (req, res) => res.status(204));
+app.get('/favicon.ico', (req, res) => {
+  res.status(204);
+  res.send();
+});
 
 app.get('/', function(req, res) {
   List.find({}, function(err, lists) {
@@ -61,7 +64,7 @@ app.get('/', function(req, res) {
       }
 
     } else {
-      console.log(err);
+      res.send(err);
     }
   });
 });
@@ -74,6 +77,7 @@ app.get('/lists/:listName', function(req, res) {
   }, function(err, foundList) {
     if (err) {
       console.log("error " + err);
+      res.send(err);
     } else {
       if (foundList) {
         res.render('list', {
@@ -81,7 +85,7 @@ app.get('/lists/:listName', function(req, res) {
           listItems: foundList.items
         });
       } else {
-        console.log('list is not saved');
+        res.send('list is not saved');
       }
     }
   });
