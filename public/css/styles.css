@@ -19,7 +19,7 @@ h1 {
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
 }
 
-#heading {
+#heading, .heading-box {
   background-color: #A683E3;
   text-align: center;
 }
@@ -88,6 +88,13 @@ input[type="text"]:focus {
 ::placeholder {
   color: grey;
   opacity: 1;
+}
+
+.info{
+  padding: 0;
+  color: white;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 
 footer {

@@ -1,0 +1,53 @@
+<%- include('header'); -%>
+
+<div class="box heading-box">
+  <h1 onmouseover="" style="cursor: pointer;">Today</h1>
+</div>
+
+<% if(haveList){ %>
+<div class="box heading-box" onclick="showLists()">
+  <h1 onmouseover="" style="cursor: pointer;">Check Lists</h1>
+</div>
+<% } %>
+
+<div class="box heading-box" onclick="addList()">
+  <h1 onmouseover="" style="cursor: pointer;">Add List</h1>
+</div>
+
+<script type="text/javascript">
+  const addList = function(){
+    console.log("add list clicked");
+
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/addList';
+
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = 'from';
+    hiddenField.value = 'home';
+
+    form.appendChild(hiddenField);
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+
+  const showLists = function() {
+    console.log("check list clicked");
+
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/showList';
+
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+
+    form.appendChild(hiddenField);
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>
+
+<%- include('footer'); -%>

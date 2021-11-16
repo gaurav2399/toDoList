@@ -1,25 +1,74 @@
 <%- include('header'); -%>
 
+<div class="box" id="heading" onclick="location.href = '/';">
+  <h1 onmouseover="" style="cursor: pointer;">Home</h1>
+</div>
+
 <div class="box" id="heading">
   <h1><%= listTitle %></h1>
 </div>
 
+<% if(listTitle === 'Lists'){ %>
+<p class="info">Click checkbox to delete list and click on it to open😊</p>
+<% }else{ %>
+  <p class="info">Click checkbox to delete item from list.😊</p>
+<% } %>
+
 <div class="box">
   <% listItems.forEach((item) => { %>
-    <form action="/delete" method="post">
-      <div class="item">
-        <input type="checkbox" name="checkbox" value="<%= item._id %>" onchange="this.form.submit()">
-        <p><%=item.name %></p>
-        <input type="hidden" name="list" value="<%= listTitle%>">
-      </div>
-    </form>
+  <form action="/delete" method="post">
+    <div class="item">
+      <input type="checkbox" name="checkbox" value="<%= item._id %>" onchange="this.form.submit()">
+      <% if(listTitle === 'Lists'){ %>
+      <p onmouseover="" style="cursor: pointer;" onclick="openList('<%= item.name%>')"><%=item.name %></p>
+      <% }else{ %>
+      <p><%=item.name %></p>
+      <% } %>
+      <input type="hidden" name="list" value="<%= listTitle%>">
+    </div>
+  </form>
   <% }); %>
 
+
+  <%# functionality to add item/list
+  if add list then show this option with add list or else add item
+  but if it is for showList then not show add option %>
+
+  <% if(listTitle === "Add List"){ %>
+  <form class="item" action="/addList" method="post">
+    <input type="text" name="newListName" placeholder="New List" autocomplete="off">
+    <input type="hidden" name="from" value="<%= listTitle %>">
+    <button type="submit" name="listName" value="<%= listTitle %>">+</button>
+  </form>
+
+  <% }else if(listTitle !== 'Lists'){ %>
   <form class="item" action="/" method="post">
     <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
     <button type="submit" name="listName" value="<%= listTitle %>">+</button>
   </form>
+  <% }else{ %>
+
+  <% } %>
 
 </div>
+
+<script type="text/javascript">
+  const openList = function(name) {
+    console.log("open list " + name);
+
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/lists/' + name;
+
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+
+    form.appendChild(hiddenField);
+
+    document.body.appendChild(form);
+    console.log('run fine');
+    form.submit();
+  }
+</script>
 
 <%- include('footer'); -%>
