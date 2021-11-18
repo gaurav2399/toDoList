@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const ejs = require('ejs');
 const _ = require('lodash');
+const secret = require('./env/secrets');
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('public'));
 
-const mongo_url_cloud = "mongodb+srv://admin-gaurav:gaurav%40sharma@cluster0.udwj8.mongodb.net/toDoListDb?retryWrites=true&w=majority";
+const mongo_url_cloud = "mongodb+srv://" + secret.username + ":" + secret.password + "@cluster0.udwj8.mongodb.net/toDoListDb?retryWrites=true&w=majority";
 const mongo_url_local = "mongodb://localhost:27017/toDoListDB";
 
 mongoose.connect(mongo_url_cloud);

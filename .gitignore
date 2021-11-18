@@ -6,6 +6,9 @@
 # Dependency directories
 **/node_modules
 
+# passwords
+**/env
+
 # Logs
 logs
 *.log
