@@ -1,8 +1,6 @@
 <%- include('header'); -%>
 
-<div class="box" id="heading" onclick="location.href = '/';">
-  <h1 onmouseover="" style="cursor: pointer;">Home</h1>
-</div>
+<%- include('navbar'); -%>
 
 <div class="box" id="heading">
   <h1><%= listTitle %></h1>
@@ -42,12 +40,10 @@
   </form>
 
   <% }else if(listTitle !== 'Lists'){ %>
-  <form class="item" action="/" method="post">
-    <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
-    <button type="submit" name="listName" value="<%= listTitle %>">+</button>
-  </form>
-  <% }else{ %>
-
+    <form class="item" action="/" method="post">
+      <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+      <button type="submit" name="listName" value="<%= listTitle %>">+</button>
+    </form>
   <% } %>
 
 </div>

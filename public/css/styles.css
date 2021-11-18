@@ -1,9 +1,13 @@
 html {
   background-color: #E4E9FD;
-  background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
-  min-height: 1000px;
-  /* font-family: 'helvetica neue'; */
+
+min-height: 750px;
+  /* background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%); */
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+body {
+  background-color: #E4E9FD;
 }
 
 h1 {
@@ -90,7 +94,7 @@ input[type="text"]:focus {
   opacity: 1;
 }
 
-.info{
+.info {
   padding: 0;
   color: white;
   color: rgba(0, 0, 0, 0.5);
@@ -101,4 +105,30 @@ footer {
   color: white;
   color: rgba(0, 0, 0, 0.5);
   text-align: center;
+}
+
+.ml-auto .dropdown-menu {
+  left: auto !important;
+  right: 0px;
+}
+
+.smallWidth {
+  padding-left: 25%;
+  padding-right: 25%;
+}
+
+.bottom {
+  position: relative;
+  margin-top: 70px;
+}
+
+.contact {
+  padding-left: 20px;
+}
+
+.center-div {
+  display: inline-block;
+  margin-left: 50%;
+  margin-top: 50px;
+  transform: translateX(-50%);
 }

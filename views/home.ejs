@@ -1,6 +1,9 @@
 <%- include('header'); -%>
 
-<div class="box heading-box">
+<%- include('navbar'); -%>
+
+<% if(from === 'home'){ %>
+<div class="box heading-box" onclick="showToday()">
   <h1 onmouseover="" style="cursor: pointer;">Today</h1>
 </div>
 
@@ -13,9 +16,16 @@
 <div class="box heading-box" onclick="addList()">
   <h1 onmouseover="" style="cursor: pointer;">Add List</h1>
 </div>
+<% }else if(from === 'about'){ %>
+<%- include('about'); -%>
+<% }else if(from === 'contact'){ %>
+<%- include('contact'); -%>
+<% }else{ %>
+<%- include('help'); -%>
+<% } %>
 
 <script type="text/javascript">
-  const addList = function(){
+  const addList = function() {
     console.log("add list clicked");
 
     const form = document.createElement('form');
@@ -48,6 +58,37 @@
     document.body.appendChild(form);
     form.submit();
   }
+
+  const showToday = function(){
+    console.log('inside show today');
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/today';
+
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+
+    form.appendChild(hiddenField);
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+
+  $(window).on('load', function() {
+    // code here
+    const from = <%- JSON.stringify(from) %>;
+    console.log('window loaded from ' + from);
+    if(from === 'home'){
+      $('.home').addClass("active");
+    }else if(from === 'about'){
+      $('.about').addClass("active");
+    }else if(from === 'contact'){
+      $('.contact').addClass("active");
+    }else{
+      $('.help').addClass("active");
+    }
+
+  });
 </script>
 
 <%- include('footer'); -%>

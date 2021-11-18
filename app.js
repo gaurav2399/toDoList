@@ -45,20 +45,19 @@ const checkFood = new Item({
 
 const defaultItems = [eatFood, buyFood, checkFood];
 
-app.get('/favicon.ico', (req, res) => {
-  res.status(204);
-  res.send();
-});
+app.use('/favicon.ico', express.static('public/todoIcon.svg'));
 
 app.get('/', function(req, res) {
   List.find({}, function(err, lists) {
     if (!err) {
       if (lists && lists.length > 0) {
         res.render('home', {
+          from: 'home',
           haveList: true
         });
       } else {
         res.render('home', {
+          from: 'home',
           haveList: false
         });
       }
@@ -66,6 +65,27 @@ app.get('/', function(req, res) {
     } else {
       res.send(err);
     }
+  });
+});
+
+app.get('/about', function(req, res) {
+  res.render('home', {
+    from: 'about',
+    haveList: false
+  });
+});
+
+app.get('/contact', function(req, res) {
+  res.render('home', {
+    from: 'contact',
+    haveList: false
+  });
+});
+
+app.get('/help', function(req, res) {
+  res.render('home', {
+    from: 'help',
+    haveList: false
   });
 });
 
@@ -92,16 +112,12 @@ app.get('/lists/:listName', function(req, res) {
 
 });
 
-app.get('/about', function(req, res) {
-  res.render('about', {});
-});
-
-app.post('/lists/:listName', function(req, res){
+app.post('/lists/:listName', function(req, res) {
   const listName = req.params.listName;
   res.redirect('/lists/' + listName);
 });
 
-app.get('/showList', function(req, res){
+app.get('/showList', function(req, res) {
   List.find({}, function(err, lists) {
     if (!err && lists.length > 0) {
       res.render('list', {
@@ -114,8 +130,31 @@ app.get('/showList', function(req, res){
   });
 });
 
+app.get('/today', function(req, res) {
+  Item.find({}, function(err, items) {
+    if (!err) {
+      if (items && items.length > 0) {
+        res.render('list', {
+          listTitle: 'Today',
+          listItems: items
+        });
+      } else {
+        Item.insertMany(defaultItems, function(err) {
+          if (!err) {
+            res.redirect('/today');
+          }
+        });
+      }
+    }
+  })
+});
+
+app.post('/today', function(req, res) {
+    res.redirect('/today');
+});
+
 app.post('/showList', function(req, res) {
-    res.redirect('/showList');
+  res.redirect('/showList');
 });
 
 app.post('/addList', function(req, res) {
@@ -124,7 +163,7 @@ app.post('/addList', function(req, res) {
       listTitle: "Add List",
       listItems: []
     });
-  } else if(req.body.from === 'Add List'){
+  } else if (req.body.from === 'Add List') {
     const listName = req.body.newListName;
 
     List.findOne({
@@ -165,7 +204,7 @@ app.post('/', function(req, res) {
   if (listName === "Today") {
     item.save(function(err) {
       if (!err) {
-        res.redirect('/');
+        res.redirect('/today');
       }
     });
   } else {
@@ -177,7 +216,7 @@ app.post('/', function(req, res) {
         foundList.save(function(err) {
           if (!err) {
             res.redirect('/lists/' + listName);
-          }else{
+          } else {
             console.log('while saving item to list error ' + err);
           }
         });
@@ -198,12 +237,12 @@ app.post('/delete', function(req, res) {
         console.log(err);
       } else {
         console.log("Successfully item removed from list " + listName + " !!");
-        res.redirect('/');
+        res.redirect('/today');
       }
     });
-  } else if(listName === 'Lists'){
+  } else if (listName === 'Lists') {
     // delete list by using it id.
-    List.findByIdAndRemove(req.body.checkbox, function(err){
+    List.findByIdAndRemove(req.body.checkbox, function(err) {
       if (err) {
         console.log(err);
       } else {
@@ -211,7 +250,7 @@ app.post('/delete', function(req, res) {
         res.redirect('/showList');
       }
     })
-  }else {
+  } else {
     List.findOneAndUpdate({
       name: listName
     }, {
